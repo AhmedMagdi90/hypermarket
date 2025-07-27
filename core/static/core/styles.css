@@ -1,0 +1,61 @@
+body {
+    background-color: #f6f8fa;
+    color: #333;
+    font-family: 'Cairo', 'Montserrat', sans-serif;
+}
+.navbar {
+    background-color: #0046ad !important;
+    box-shadow: 0 4px 24px 0 rgba(0,70,173,0.07);
+}
+.navbar-brand img { height:34px; }
+.nav-link, .navbar-brand {
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: .03em;
+}
+.btn-warning {
+    background: #ffc107;
+    color: #222;
+    border-radius: 1.5rem;
+    font-weight: 600;
+    padding: 0.5rem 1.3rem;
+    border: none;
+}
+.btn-primary {
+    background-color: #1976d2;
+    border-color: #1976d2;
+    font-weight: 600;
+}
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+footer {
+    background: #fff;
+    border-top: 1px solid #e8e8e8;
+    color: #888;
+}
+.language-select { min-width:90px; margin-inline-start:1rem;}
+.card {
+    box-shadow: 0 1px 8px 0 rgba(0,0,0,0.07);
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+    background: #fff;
+}
+.card-img-top {
+    border-radius: .5rem .5rem 0 0;
+    object-fit: cover;
+    height: 200px;
+}
+.main-action {
+    background: linear-gradient(90deg,#0046ad 0,#1976d2 70%);
+    color: #fff;
+    border-radius: 1.6rem;
+    font-size:1.25rem;
+    padding: .8rem 2.2rem;
+    box-shadow: 0 4px 16px 0 rgba(25,118,210,.08);
+}
+@media (max-width:768px) {
+    .card-img-top { height: 140px; }
+    .main-action { font-size:1rem; }
+}

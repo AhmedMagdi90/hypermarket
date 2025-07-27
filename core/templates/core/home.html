@@ -1,35 +1,402 @@
 {% extends "core/base.html" %}
 {% load static i18n %}
 
-{% block title %}{% trans "Home" %}{% endblock %}
+{% block title %}{% trans "Home" %} - {% trans "Hyper Market" %} | {% trans "Your Premium Shopping Destination" %}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/home.css' %}">
+{% endblock %}
 
 {% block content %}
-<div class="row align-items-center">
-    <div class="col-md-6 text-center text-md-start">
-        <h1 class="display-4 mb-3" style="color:#0046ad">{% trans "Welcome to Hyper Market" %}</h1>
-        <p class="lead">{% trans "Best deals, fresh products, and smooth shopping experience in every branch." %}</p>
-        <a href="{% url 'products' %}" class="btn btn-primary btn-lg mt-3">{% trans "Start Shopping" %}</a>
+<!-- HERO BANNER SECTION -->
+<div id="heroCarousel" class="carousel slide hero-banner" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
     </div>
-    <div class="col-md-6 text-center d-none d-md-block">
-        <img src="{% static 'core/images/hero.png' %}" alt="{% trans 'Shopping' %}" class="img-fluid">
-    </div>
-</div>
-
-<div class="row mt-5">
-    <h2 class="mb-3">{% trans "Featured Products" %}</h2>
-    {% for product in featured_products %}
-    <div class="col-6 col-md-3 mb-4">
-        <div class="card shadow-sm h-100">
-            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-            <div class="card-body">
-                <h6 class="card-title">{{ product.name }}</h6>
-                <p class="card-text">{{ product.price }} SAR</p>
-                <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-primary btn-sm w-100">{% trans "View" %}</a>
+    
+    <div class="carousel-inner">
+        <!-- SLIDE 1 -->
+        <div class="carousel-item active">
+            <div class="hero-slide">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="hero-content">
+                                <h1 class="hero-title">
+                                    {% trans "Welcome to" %}<br>
+                                    {% trans "Hyper Market" %}
+                                </h1>
+                                <p class="hero-subtitle">
+                                    {% trans "Your premium shopping destination with quality products, competitive prices, and excellent service across Egypt." %}
+                                </p>
+                                <div class="hero-cta">
+                                    <a href="{% url 'products' %}" class="btn-hero-primary">
+                                        <i class="bi bi-bag-check"></i>
+                                        {% trans "Shop Now" %}
+                                    </a>
+                                    <a href="{% url 'branches' %}" class="btn-hero-secondary">
+                                        <i class="bi bi-geo-alt"></i>
+                                        {% trans "Our Branches" %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="hero-image">
+                                <img src="{% static 'core/images/hero1.png' %}" alt="{% trans 'Shopping' %}" 
+                                 onerror="this.style.display='none'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SLIDE 2 -->
+        <div class="carousel-item">
+            <div class="hero-slide">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="hero-content">
+                                <h1 class="hero-title">
+                                    {% trans "Premium Quality" %}<br>
+                                    {% trans "Best Prices" %}
+                                </h1>
+                                <p class="hero-subtitle">
+                                    {% trans "Discover thousands of products from top brands with unbeatable prices and fast delivery to your doorstep." %}
+                                </p>
+                                <div class="hero-cta">
+                                    <a href="{% url 'products' %}?featured=1" class="btn-hero-primary">
+                                        <i class="bi bi-star"></i>
+                                        {% trans "Featured Products" %}
+                                    </a>
+                                    <a href="{% url 'products' %}?sort=newest" class="btn-hero-secondary">
+                                        <i class="bi bi-lightning"></i>
+                                        {% trans "New Arrivals" %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="hero-image">
+                                <img src="{% static 'core/images/hero2.png' %}" alt="{% trans 'Quality Products' %}"
+                                 onerror="this.style.display='none'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SLIDE 3 -->
+        <div class="carousel-item">
+            <div class="hero-slide">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="hero-content">
+                                <h1 class="hero-title">
+                                    {% trans "4 Convenient" %}<br>
+                                    {% trans "Locations" %}
+                                </h1>
+                                <p class="hero-subtitle">
+                                    {% trans "Visit our modern stores across Egypt or shop online with free delivery. Experience premium shopping like never before." %}
+                                </p>
+                                <div class="hero-cta">
+                                    <a href="{% url 'branches' %}" class="btn-hero-primary">
+                                        <i class="bi bi-geo-alt"></i>
+                                        {% trans "Find Store" %}
+                                    </a>
+                                    <a href="{% url 'products' %}?in_stock=1" class="btn-hero-secondary">
+                                        <i class="bi bi-truck"></i>
+                                        {% trans "Delivery Info" %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="hero-image">
+                                <img src="{% static 'core/images/hero3.png' %}" alt="{% trans 'Store Locations' %}"
+                                 onerror="this.style.display='none'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    {% empty %}
-    <p>{% trans "No products available." %}</p>
-    {% endfor %}
+    
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <i class="bi bi-chevron-left"></i>
+        <span class="visually-hidden">{% trans "Previous" %}</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <i class="bi bi-chevron-right"></i>
+        <span class="visually-hidden">{% trans "Next" %}</span>
+    </button>
 </div>
+
+<!-- FEATURES SECTION -->
+<section class="features-section" data-animate="fadeInUp">
+    <div class="container">
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="bi bi-truck"></i>
+                </div>
+                <h3 class="feature-title">{% trans "Free Delivery" %}</h3>
+                <p class="feature-description">
+                    {% trans "Free delivery on orders over 200 EGP. Fast and reliable shipping to your doorstep." %}
+                </p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <h3 class="feature-title">{% trans "Quality Guarantee" %}</h3>
+                <p class="feature-description">
+                    {% trans "100% authentic products with quality guarantee. Your satisfaction is our priority." %}
+                </p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="bi bi-headset"></i>
+                </div>
+                <h3 class="feature-title">{% trans "24/7 Support" %}</h3>
+                <p class="feature-description">
+                    {% trans "Round-the-clock customer support. We're here to help you anytime, anywhere." %}
+                </p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="bi bi-arrow-repeat"></i>
+                </div>
+                <h3 class="feature-title">{% trans "Easy Returns" %}</h3>
+                <p class="feature-description">
+                    {% trans "Hassle-free returns within 30 days. No questions asked, money-back guarantee." %}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CATEGORIES SECTION -->
+<section class="categories-section" data-animate="slideInLeft">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">{% trans "Shop by Category" %}</h2>
+            <p class="section-subtitle">
+                {% trans "Explore our wide range of categories and find exactly what you're looking for." %}
+            </p>
+        </div>
+        
+        <div class="categories-grid">
+            {% for category in categories %}
+            <a href="{% url 'products' %}?category={{ category.id }}" class="category-card">
+                <div class="category-image">
+                    {% if 'Electronics' in category.name or 'إلكترونيات' in category.name %}
+                        <i class="category-icon bi bi-laptop"></i>
+                    {% elif 'Groceries' in category.name or 'بقالة' in category.name %}
+                        <i class="category-icon bi bi-basket2"></i>
+                    {% elif 'Clothing' in category.name or 'ملابس' in category.name %}
+                        <i class="category-icon bi bi-bag"></i>
+                    {% elif 'Home' in category.name or 'منزل' in category.name %}
+                        <i class="category-icon bi bi-house"></i>
+                    {% elif 'Sports' in category.name or 'رياضة' in category.name %}
+                        <i class="category-icon bi bi-trophy"></i>
+                    {% elif 'Books' in category.name or 'كتب' in category.name %}
+                        <i class="category-icon bi bi-book"></i>
+                    {% else %}
+                        <i class="category-icon bi bi-grid-3x3-gap"></i>
+                    {% endif %}
+                </div>
+                <div class="category-content">
+                    <h3 class="category-title">{{ category.name }}</h3>
+                    <p class="category-description">
+                        {% trans "Discover premium products in" %} {{ category.name|lower }}
+                    </p>
+                    <div class="category-meta">
+                        <span>{% trans "Explore Now" %}</span>
+                        <span class="products-count">{{ category.product_count|default:"20+" }}+</span>
+                    </div>
+                </div>
+            </a>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">{% trans "Categories will be displayed here." %}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- FEATURED PRODUCTS SECTION -->
+<section class="featured-products-section" data-animate="fadeInUp">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">{% trans "Featured Products" %}</h2>
+            <p class="section-subtitle">
+                {% trans "Hand-picked products that our customers love most. Quality and value in every purchase." %}
+            </p>
+        </div>
+        
+        <div class="products-grid">
+            {% for product in featured_products %}
+            <div class="product-card">
+                <div class="product-image-container">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="product-image" alt="{{ product.name }}">
+                    {% else %}
+                    <div class="product-image" style="background: var(--gradient-primary); display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-image text-white" style="font-size: 3rem;"></i>
+                    </div>
+                    {% endif %}
+                    
+                    {% if product.featured %}
+                    <div class="product-badge">{% trans "Featured" %}</div>
+                    {% endif %}
+                    
+                    <div class="product-actions">
+                        <button class="action-btn btn-wishlist" data-product-id="{{ product.id }}" title="{% trans 'Add to Wishlist' %}">
+                            <i class="bi bi-heart"></i>
+                        </button>
+                        <button class="action-btn btn-compare" data-product-id="{{ product.id }}" title="{% trans 'Compare' %}">
+                            <i class="bi bi-arrow-left-right"></i>
+                        </button>
+                        <a href="{% url 'product_detail' product.id %}" class="action-btn" title="{% trans 'Quick View' %}">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="product-info">
+                    {% if product.brand %}
+                    <div class="product-brand">{{ product.brand }}</div>
+                    {% endif %}
+                    
+                    <h3 class="product-title">
+                        <a href="{% url 'product_detail' product.id %}" style="text-decoration: none; color: inherit;">
+                            {{ product.name }}
+                        </a>
+                    </h3>
+                    
+                    <div class="product-price-container">
+                        <div class="product-price">{{ product.price }} {% trans "EGP" %}</div>
+                        {% if product.old_price %}
+                        <div class="product-old-price">{{ product.old_price }} {% trans "EGP" %}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <button class="btn-add-to-cart" data-product-id="{{ product.id }}">
+                        <i class="bi bi-cart-plus"></i>
+                        {% trans "Add to Cart" %}
+                    </button>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <div class="alert alert-info">
+                    <h4>{% trans "No Featured Products Yet" %}</h4>
+                    <p>{% trans "Featured products will appear here once they are added to the system." %}</p>
+                    <a href="{% url 'products' %}" class="btn btn-primary">
+                        {% trans "Browse All Products" %}
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        {% if featured_products %}
+        <div class="text-center mt-5">
+            <a href="{% url 'products' %}" class="btn btn-outline-primary btn-lg">
+                <i class="bi bi-grid-3x3-gap me-2"></i>
+                {% trans "View All Products" %}
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- WHY CHOOSE US SECTION -->
+<section class="why-choose-section" data-animate="slideInRight">
+    <div class="container">
+        <div class="why-choose-grid">
+            <div class="why-choose-content">
+                <h3>{% trans "Why Choose Hyper Market?" %}</h3>
+                <ul class="why-choose-list">
+                    <li>
+                        <div class="icon">
+                            <i class="bi bi-award"></i>
+                        </div>
+                        <div>
+                            <strong>{% trans "Premium Quality" %}</strong><br>
+                            {% trans "Only the best products from trusted brands" %}
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon">
+                            <i class="bi bi-lightning"></i>
+                        </div>
+                        <div>
+                            <strong>{% trans "Fast Delivery" %}</strong><br>
+                            {% trans "Same day delivery available in Cairo and Giza" %}
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon">
+                            <i class="bi bi-credit-card"></i>
+                        </div>
+                        <div>
+                            <strong>{% trans "Secure Payment" %}</strong><br>
+                            {% trans "Multiple payment options with bank-level security" %}
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div>
+                            <strong>{% trans "Expert Support" %}</strong><br>
+                            {% trans "Our team is here to help you find what you need" %}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="why-choose-image">
+                <img src="{% static 'core/images/why-choose-us.jpg' %}" alt="{% trans 'Why Choose Us' %}"
+                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzZjNzU3ZCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkh5cGVyIE1hcmtldDwvdGV4dD48L3N2Zz4='">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEWSLETTER SECTION -->
+<section class="newsletter-section" data-animate="fadeInUp">
+    <div class="container">
+        <div class="newsletter-content">
+            <h3 class="newsletter-title">{% trans "Stay Updated" %}</h3>
+            <p class="newsletter-subtitle">
+                {% trans "Subscribe to our newsletter and be the first to know about new products, special offers, and exclusive deals." %}
+            </p>
+            <form class="newsletter-form" onsubmit="return subscribeNewsletter(event)">
+                {% csrf_token %}
+                <input type="email" class="newsletter-input" placeholder="{% trans 'Enter your email address' %}" required>
+                <button type="submit" class="newsletter-btn">
+                    {% trans "Subscribe" %}
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'core/home.js' %}"></script>
 {% endblock %}

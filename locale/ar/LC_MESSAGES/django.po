@@ -1,0 +1,140 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025 Hyper Market
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Hyper Market 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-27 15:09+0300\n"
+"PO-Revision-Date: 2025-07-27 15:09+0300\n"
+"Last-Translator: Your Name <your.email@example.com>\n"
+"Language-Team: Arabic <ar@li.org>\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: .\core\templates\core\base.html:31 .\core\templates\core\home.html:4
+msgid "Home"
+msgstr "الرئيسية"
+
+#: .\core\templates\core\base.html:32 .\core\templates\core\product_list.html:4
+msgid "Products"
+msgstr "المنتجات"
+
+#: .\core\templates\core\base.html:33 .\core\templates\core\branches.html:4
+msgid "Branches"
+msgstr "الفروع"
+
+#: .\core\templates\core\base.html:42 .\core\templates\core\cart.html:4
+msgid "Cart"
+msgstr "عربة التسوق"
+
+#: .\core\templates\core\branches.html:6
+msgid "Our Branches"
+msgstr "فروعنا"
+
+#: .\core\templates\core\branches.html:14
+msgid "No branches found."
+msgstr "لم يتم العثور على فروع."
+
+#: .\core\templates\core\cart.html:6
+msgid "Shopping Cart"
+msgstr "عربة التسوق"
+
+#: .\core\templates\core\cart.html:10
+msgid "Product"
+msgstr "المنتج"
+
+#: .\core\templates\core\cart.html:11
+msgid "Quantity"
+msgstr "الكمية"
+
+#: .\core\templates\core\cart.html:12
+msgid "Price"
+msgstr "السعر"
+
+#: .\core\templates\core\cart.html:13 .\core\templates\core\cart.html:24
+msgid "Remove"
+msgstr "إزالة"
+
+#: .\core\templates\core\cart.html:31
+msgid "Total:"
+msgstr "المجموع:"
+
+#: .\core\templates\core\cart.html:32
+msgid "Proceed to Checkout"
+msgstr "المتابعة إلى الدفع"
+
+#: .\core\templates\core\checkout.html:3
+msgid "Checkout"
+msgstr "الدفع"
+
+#: .\core\templates\core\checkout.html:5
+msgid "Checkout Page"
+msgstr "صفحة الدفع"
+
+#: .\core\templates\core\checkout.html:6
+msgid "Checkout functionality coming soon."
+msgstr "ميزة الدفع قيد الإعداد قريباً."
+
+#: .\core\templates\core\home.html:9
+msgid "Welcome to Hyper Market"
+msgstr "مرحباً بكم في هايبر ماركت"
+
+#: .\core\templates\core\home.html:10
+msgid "Best deals, fresh products, and smooth shopping experience in every branch."
+msgstr "أفضل العروض، منتجات طازجة، وتجربة تسوق سلسة في كل فرع."
+
+#: .\core\templates\core\home.html:11
+msgid "Start Shopping"
+msgstr "ابدأ التسوق"
+
+#: .\core\templates\core\home.html:14
+msgid "Shopping"
+msgstr "التسوق"
+
+#: .\core\templates\core\home.html:19
+msgid "Featured Products"
+msgstr "المنتجات المميزة"
+
+#: .\core\templates\core\home.html:27
+msgid "View"
+msgstr "عرض"
+
+#: .\core\templates\core\home.html:32
+msgid "No products available."
+msgstr "لا توجد منتجات متاحة."
+
+#: .\core\templates\core\product_detail.html:18
+msgid "Add to Cart"
+msgstr "أضف إلى السلة"
+
+#: .\core\templates\core\product_list.html:6
+msgid "All Products"
+msgstr "جميع المنتجات"
+
+#: .\core\templates\core\product_list.html:9
+msgid "Search…"
+msgstr "بحث…"
+
+#: .\core\templates\core\product_list.html:13
+msgid "All Categories"
+msgstr "كل الفئات"
+
+#: .\core\templates\core\product_list.html:20
+msgid "Filter"
+msgstr "تصفية"
+
+#: .\core\templates\core\product_list.html:31
+msgid "View Details"
+msgstr "عرض التفاصيل"
+
+#: .\core\templates\core\product_list.html:36
+msgid "No products found."
+msgstr "لم يتم العثور على منتجات."
