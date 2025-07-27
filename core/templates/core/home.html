@@ -1,0 +1,35 @@
+{% extends "core/base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Home" %}{% endblock %}
+
+{% block content %}
+<div class="row align-items-center">
+    <div class="col-md-6 text-center text-md-start">
+        <h1 class="display-4 mb-3" style="color:#0046ad">{% trans "Welcome to Hyper Market" %}</h1>
+        <p class="lead">{% trans "Best deals, fresh products, and smooth shopping experience in every branch." %}</p>
+        <a href="{% url 'products' %}" class="btn btn-primary btn-lg mt-3">{% trans "Start Shopping" %}</a>
+    </div>
+    <div class="col-md-6 text-center d-none d-md-block">
+        <img src="{% static 'core/images/hero.png' %}" alt="{% trans 'Shopping' %}" class="img-fluid">
+    </div>
+</div>
+
+<div class="row mt-5">
+    <h2 class="mb-3">{% trans "Featured Products" %}</h2>
+    {% for product in featured_products %}
+    <div class="col-6 col-md-3 mb-4">
+        <div class="card shadow-sm h-100">
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+            <div class="card-body">
+                <h6 class="card-title">{{ product.name }}</h6>
+                <p class="card-text">{{ product.price }} SAR</p>
+                <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-primary btn-sm w-100">{% trans "View" %}</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>{% trans "No products available." %}</p>
+    {% endfor %}
+</div>
+{% endblock %}

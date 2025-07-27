@@ -1,0 +1,16 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Branches" %}{% endblock %}
+{% block content %}
+<h2>{% trans "Our Branches" %}</h2>
+<ul class="list-group">
+  {% for branch in branches %}
+    <li class="list-group-item">
+      <strong>{{ branch.name }}</strong><br>
+      {{ branch.address }}
+    </li>
+  {% empty %}
+    <li class="list-group-item">{% trans "No branches found." %}</li>
+  {% endfor %}
+</ul>
+{% endblock %}
