@@ -1,0 +1,44 @@
+{% extends "core/base.html" %}
+{% load widget_tweaks i18n %}
+
+{% block title %}{% trans "Edit Profile" %}{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="max-width: 600px;">
+    <h2 class="mb-4">{% trans "Edit Your Profile" %}</h2>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <h5>{% trans "User Information" %}</h5>
+        <div class="mb-3">
+            {{ user_form.username.label_tag }}
+            {{ user_form.username|add_class:"form-control" }}
+            {{ user_form.username.errors }}
+        </div>
+        <div class="mb-3">
+            {{ user_form.email.label_tag }}
+            {{ user_form.email|add_class:"form-control" }}
+            {{ user_form.email.errors }}
+        </div>
+
+        <h5>{% trans "Profile Details" %}</h5>
+        <div class="mb-3">
+            {{ profile_form.full_name.label_tag }}
+            {{ profile_form.full_name|add_class:"form-control" }}
+            {{ profile_form.full_name.errors }}
+        </div>
+        <div class="mb-3">
+            {{ profile_form.phone.label_tag }}
+            {{ profile_form.phone|add_class:"form-control" }}
+            {{ profile_form.phone.errors }}
+        </div>
+        <div class="mb-3">
+            {{ profile_form.address.label_tag }}
+            {{ profile_form.address|add_class:"form-control" }}
+            {{ profile_form.address.errors }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">{% trans "Save Changes" %}</button>
+        <a href="{% url 'account_profile' %}" class="btn btn-secondary ms-2">{% trans "Cancel" %}</a>
+    </form>
+</div>
+{% endblock %}

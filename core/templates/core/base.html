@@ -20,33 +20,88 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">
-            <img src="{% static 'core/images/logo.png' %}" alt="Hyper Market Logo" style="height:34px;">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">{% trans 'Home' %}</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'products' %}">{% trans 'Products' %}</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'branches' %}">{% trans 'Branches' %}</a></li>
-            </ul>
-            <form method="post" action="{% url 'set_language' %}" class="d-flex ms-auto">
-    {% csrf_token %}
-    <input type="hidden" name="next" value="{{ request.path }}">
-    <select name="language" class="form-select form-select-sm language-select" onchange="this.form.submit()">
-        <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
-        <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>العربية</option>
-    </select>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary py-3">
+  <div class="container">
+    <!-- Logo -->
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+      <img src="{% static 'core/images/logo.png' %}" alt="Logo" width="40" height="40" class="me-2">
+      <span class="fw-bold">{% trans "Hyper Market" %}</span>
+    </a>
+    <!-- Hamburger for mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Navigation Links -->
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">{% trans "Home" %}</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'products' %}active{% endif %}" href="{% url 'products' %}" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {% trans "Products" %}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+            {% for category in categories %}
+              <li><a class="dropdown-item" href="{% url 'products' %}?category={{ category.id }}">{{ category.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'branches' %}active{% endif %}" href="{% url 'branches' %}">{% trans "Branches" %}</a>
+        </li>
+      </ul>
+      <!-- Optional: User Account -->
+      <ul class="navbar-nav ms-3 mb-2 mb-lg-0">
+        {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle"></i> {{ user.username }}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+              <li><a class="dropdown-item" href="{% url 'account_profile' %}">{% trans "Profile" %}</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><form action="{% url 'logout' %}" method="post" style="display:inline;">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-link">Logout</button>
 </form>
-
-            <a class="btn btn-warning ms-2" href="{% url 'cart' %}">{% trans "Cart" %}</a>
-        </div>
+</li>
+            </ul>
+          </li>
+        {% else %}
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'login' %}">{% trans "Login" %}</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'register' %}">{% trans "Register" %}</a>
+  </li>
+{% endif %}
+        <!-- Cart Icon/Button -->
+        <li class="nav-item ms-2">
+          <a class="btn btn-warning position-relative" href="{% url 'cart' %}">
+            <i class="bi bi-cart"></i> {% trans "Cart" %}
+            {% if cart_item_count %}
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ cart_item_count }}
+              </span>
+            {% endif %}
+          </a>
+        </li>
+        <!-- Language Switcher -->
+        <li class="nav-item ms-2">
+          <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            <select name="language" onchange="this.form.submit()" class="form-select form-select-sm">
+              <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+              <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>العربية</option>
+            </select>
+          </form>
+        </li>
+      </ul>
     </div>
+  </div>
 </nav>
+
 <main class="container mt-5 pt-4">
     {% block content %}{% endblock %}
 </main>

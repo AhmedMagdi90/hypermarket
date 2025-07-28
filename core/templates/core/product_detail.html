@@ -1,23 +1,80 @@
 {% extends "core/base.html" %}
 {% load static i18n %}
-{% block title %}{{ product.name }}{% endblock %}
-{% block content %}
-<div class="row">
-    <div class="col-md-6">
-        <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
-    </div>
-    <div class="col-md-6">
-        <h3>{{ product.name }}</h3>
-        <p>{{ product.description }}</p>
-       <h4 class="mb-3">{{ product.price }} EGP</h4>
 
-        <form method="post" action="{% url 'add_to_cart' product.id %}">
-            {% csrf_token %}
-            <div class="input-group mb-3 w-50">
-                <input type="number" name="quantity" value="1" min="1" class="form-control">
-                <button class="btn btn-success" type="submit">{% trans "Add to Cart" %}</button>
-            </div>
-        </form>
+{% block title %}{{ product.name }} - {% trans "Details" %}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row">
+    <!-- Product Image -->
+    <div class="col-md-6">
+      {% if product.image %}
+      <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+      {% else %}
+      <div class="img-fluid bg-light text-center" style="height:300px; display:flex; align-items:center; justify-content:center;">
+        <i class="bi bi-image" style="font-size:5rem;color: #eee;"></i>
+      </div>
+      {% endif %}
     </div>
+
+    <!-- Product Info -->
+    <div class="col-md-6">
+      <h1>{{ product.name }}</h1>
+      {% if product.subcategory %}
+        <div class="mb-2 text-muted">{{ product.subcategory.name }}</div>
+      {% endif %}
+
+      <div class="product-price h3 mb-3">
+        {{ product.price }} {% trans "EGP" %}
+        {% if product.old_price %}
+          <small class="text-decoration-line-through text-secondary ms-2">{{ product.old_price }} {% trans "EGP" %}</small>
+        {% endif %}
+      </div>
+
+      {% if product.description %}
+      <p class="lead">{{ product.description }}</p>
+      {% endif %}
+
+      <div class="d-flex gap-3 my-4">
+        <!-- Add to Cart -->
+        <form method="POST" action="{% url 'cart_add' product.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-cart-plus"></i> {% trans "Add to Cart" %}
+          </button>
+        </form>
+
+        <!-- Favorite/Wishlist -->
+        <form method="POST" action="{% url 'wishlist_toggle' product.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-danger">
+            <i class="bi bi-heart{% if in_wishlist %}-fill{% endif %}"></i> 
+            {% if in_wishlist %}
+              {% trans "Remove from Favorites" %}
+            {% else %}
+              {% trans "Add to Favorites" %}
+            {% endif %}
+          </button>
+        </form>
+      </div>
+
+      <!-- Example stock/availability & share links -->
+      {% if product.visible %}
+        <div class="badge bg-success">{% trans "In Stock" %}</div>
+      {% else %}
+        <div class="badge bg-danger">{% trans "Out of Stock" %}</div>
+      {% endif %}
+
+      <div class="mt-4">
+        <strong>{% trans "Share:" %}</strong>
+        <a href="https://wa.me/?text={{ product.name }} {{ request.build_absolute_uri }}" target="_blank" class="ms-2 text-success">
+          <i class="bi bi-whatsapp"></i> WhatsApp
+        </a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="ms-2 text-primary">
+          <i class="bi bi-facebook"></i> Facebook
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

@@ -29,7 +29,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'widget_tweaks',
+    
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -56,12 +60,17 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.i18n',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.navbar_categories',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'hypermarket.wsgi.application'
+AUTHENTICATION_BACKENDS = (
+    'core.backends.PhoneOrUsernameModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 
 # Database
@@ -120,7 +129,12 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'core/static')]  # adjust if your sta
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LANGUAGE_COOKIE_NAME = 'django_language'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
