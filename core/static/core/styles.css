@@ -59,3 +59,49 @@ footer {
     .card-img-top { height: 140px; }
     .main-action { font-size:1rem; }
 }
+
+
+/* Enhanced Navbar Color Scheme */
+.bg-hyper {
+    background: linear-gradient(90deg, #003972 0%, #006bcb 100%);
+}
+.navbar .navbar-brand, 
+.navbar .nav-link, 
+.navbar .nav-link i {
+    color: #fff !important;
+    transition: color 0.2s;
+}
+
+.navbar .nav-link.active, 
+.navbar .nav-link:hover {
+    color: #FFDF43 !important; /* Hyperone/Carrefour gold accent */
+}
+.navbar .nav-link[title="Favorites"] i {
+    color: #e83e8c !important; /* Pink for favorites */
+}
+.btn-warning {
+    background-color: #FFDF43 !important;  /* Brighter cart button */
+    color: #003972 !important;
+    border: none;
+}
+.badge.bg-danger {
+    background-color: #dc3545 !important;
+    color: #fff;
+}
+/* Dropdown enhancements */
+.dropdown-menu {
+    background: #f9f9f9;
+    border-radius: 7px;
+    border: none;
+}
+.dropdown-item:active, .dropdown-item:hover {
+    color: #fff;
+    background: #006bcb;
+}
+
+/* Language selector - smaller, rounded */
+.navbar .form-select-sm {
+    border-radius: 7px;
+    background: #e6f0fa;
+    border: 1px solid #ced4da;
+}

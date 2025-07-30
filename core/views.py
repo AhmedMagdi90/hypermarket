@@ -9,6 +9,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from .forms import UserEditForm, UserProfileForm, UserRegistrationForm
 from django.contrib import messages
 from django.contrib.auth import login
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 def home_view(request):
@@ -93,8 +95,22 @@ def wishlist_toggle_view(request, product_id):
 
 
 @login_required
-def account_profile_view(request):
-    return render(request, "core/account_profile.html")
+def profile_edit_view(request):
+    user = request.user
+    profile, _ = UserProfile.objects.get_or_create(user=user)
+    if request.method == 'POST':
+        user_form = UserEditForm(request.POST, instance=user)
+        profile_form = UserProfileForm(request.POST, instance=profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, "Your profile has been updated.")
+            return redirect('account_profile')
+    else:
+        user_form = UserEditForm(instance=user)
+        profile_form = UserProfileForm(instance=profile)
+    return render(request, 'core/profile_edit.html', {'user_form': user_form, 'profile_form': profile_form})
+
 
 
 class CustomLoginView(LoginView):
@@ -132,10 +148,7 @@ def register_view(request):
 @login_required
 def profile_edit_view(request):
     user = request.user
-    try:
-        profile = user.userprofile
-    except UserProfile.DoesNotExist:
-        profile = UserProfile(user=user)
+    profile, _ = UserProfile.objects.get_or_create(user=user)
 
     if request.method == 'POST':
         user_form = UserEditForm(request.POST, instance=user)
@@ -149,8 +162,35 @@ def profile_edit_view(request):
         user_form = UserEditForm(instance=user)
         profile_form = UserProfileForm(instance=profile)
 
-    context = {
-        'user_form': user_form,
-        'profile_form': profile_form,
-    }
-    return render(request, 'core/profile_edit.html', context)
+    return render(request, 'core/profile_edit.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
+
+@login_required
+def account_profile_view(request):
+    # Optionally add context data such as user profile info here
+    return render(request, "core/account_profile.html")
+
+
+@login_required
+def wishlist_toggle_view(request, product_id):
+    from core.models import WishlistItem, Product
+
+    product = Product.objects.filter(id=product_id).first()
+    if not product:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', reverse('products')))
+
+    wishlist_item = WishlistItem.objects.filter(user=request.user, product=product).first()
+
+    if wishlist_item:
+        wishlist_item.delete()
+    else:
+        WishlistItem.objects.create(user=request.user, product=product)
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', reverse('products')))
+
+
+@login_required
+def wishlist_view(request):
+    wishlist_items = request.user.wishlist_items.select_related('product')
+    return render(request, 'core/wishlist.html', {'wishlist_items': wishlist_items})

@@ -7,6 +7,7 @@
     <title>{% block title %}Hyper Market{% endblock %}</title>
     <link rel="icon" href="{% static 'core/images/logo.png' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <!-- Google Fonts: Cairo and Montserrat/Lato -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
@@ -27,19 +28,28 @@
       <img src="{% static 'core/images/logo.png' %}" alt="Logo" width="40" height="40" class="me-2">
       <span class="fw-bold">{% trans "Hyper Market" %}</span>
     </a>
+
     <!-- Hamburger for mobile -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <!-- Navigation Links -->
     <div class="collapse navbar-collapse" id="mainNavbar">
+
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        
+        <!-- Home -->
         <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">{% trans "Home" %}</a>
+          <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+            <i class="bi bi-house-door-fill me-1"></i> {% trans "Home" %}
+          </a>
         </li>
+
+        <!-- Products Dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'products' %}active{% endif %}" href="{% url 'products' %}" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {% trans "Products" %}
+            <i class="bi bi-box-seam me-1"></i> {% trans "Products" %}
           </a>
           <ul class="dropdown-menu" aria-labelledby="productsDropdown">
             {% for category in categories %}
@@ -47,60 +57,104 @@
             {% endfor %}
           </ul>
         </li>
+
+        <!-- Branches -->
         <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.url_name == 'branches' %}active{% endif %}" href="{% url 'branches' %}">{% trans "Branches" %}</a>
+          <a class="nav-link {% if request.resolver_match.url_name == 'branches' %}active{% endif %}" href="{% url 'branches' %}">
+            <i class="bi bi-shop me-1"></i> {% trans "Branches" %}
+          </a>
         </li>
+
       </ul>
-      <!-- Optional: User Account -->
-      <ul class="navbar-nav ms-3 mb-2 mb-lg-0">
+
+      <!-- User Account & Action Icons -->
+      <ul class="navbar-nav ms-3 mb-2 mb-lg-0 align-items-center">
+
+        <!-- Favorites (Wishlist) Icon -->
+       <li class="nav-item me-2">
+  <a class="nav-link position-relative" href="{% url 'wishlist' %}" title="{% trans 'Favorites' %}">
+    <i class="bi bi-heart-fill text-danger fs-5"></i>
+    {% if wishlist_count > 0 %}
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        {{ wishlist_count }}
+        <span class="visually-hidden">{% trans "wishlist items" %}</span>
+      </span>
+    {% endif %}
+  </a>
+</li>
+
+
+        <!-- Cart Icon -->
+        <li class="nav-item me-2">
+  <a class="nav-link position-relative fw-bold text-white" href="{% url 'cart' %}" aria-label="{% trans 'Shopping cart' %}">
+    <i class="bi bi-cart fs-4 align-middle"></i>
+    {% if cart_item_count > 0 %}
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        {{ cart_item_count }}
+        <span class="visually-hidden">{% trans "cart items" %}</span>
+      </span>
+    {% endif %}
+  </a>
+</li>
+
+
+
         {% if user.is_authenticated %}
+          <!-- User Dropdown -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-person-circle"></i> {{ user.username }}
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle fs-5 me-1" aria-hidden="true"></i> {{ user.username }}
             </a>
-            <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
               <li><a class="dropdown-item" href="{% url 'account_profile' %}">{% trans "Profile" %}</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><form action="{% url 'logout' %}" method="post" style="display:inline;">
-  {% csrf_token %}
-  <button type="submit" class="btn btn-link">Logout</button>
-</form>
-</li>
+              <li>
+                <form action="{% url 'logout' %}" method="post" class="d-inline">
+                  {% csrf_token %}
+                  <button type="submit" class="dropdown-item">{% trans "Logout" %}</button>
+                </form>
+              </li>
             </ul>
           </li>
         {% else %}
-  <li class="nav-item">
-    <a class="nav-link" href="{% url 'login' %}">{% trans "Login" %}</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="{% url 'register' %}">{% trans "Register" %}</a>
-  </li>
-{% endif %}
-        <!-- Cart Icon/Button -->
-        <li class="nav-item ms-2">
-          <a class="btn btn-warning position-relative" href="{% url 'cart' %}">
-            <i class="bi bi-cart"></i> {% trans "Cart" %}
-            {% if cart_item_count %}
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                {{ cart_item_count }}
-              </span>
-            {% endif %}
-          </a>
-        </li>
+          <!-- Login/Register Links -->
+          <li class="nav-item me-2">
+            <a class="nav-link" href="{% url 'login' %}">
+              <i class="bi bi-box-arrow-in-right me-1"></i> {% trans "Login" %}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register' %}">
+              <i class="bi bi-person-plus me-1"></i> {% trans "Register" %}
+            </a>
+          </li>
+        {% endif %}
+
         <!-- Language Switcher -->
-        <li class="nav-item ms-2">
-          <form action="{% url 'set_language' %}" method="post">
+        <li class="nav-item ms-3">
+          <form action="{% url 'set_language' %}" method="post" class="d-flex align-items-center">
             {% csrf_token %}
-            <select name="language" onchange="this.form.submit()" class="form-select form-select-sm">
+            <select name="language" onchange="this.form.submit()" class="form-select form-select-sm" aria-label="{% trans 'Language selector' %}">
               <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
               <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>العربية</option>
             </select>
           </form>
         </li>
+
       </ul>
     </div>
   </div>
 </nav>
+
+
+{% if messages %}
+  <div class="container mt-3">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{% if message.tags == "success" %}<i class="bi bi-check-circle"></i> {% endif %}{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+
 
 <main class="container mt-5 pt-4">
     {% block content %}{% endblock %}

@@ -2,12 +2,12 @@ from django.urls import path
 from . import views
 from django.contrib.auth.views import (
     LogoutView,
-    LoginView,
     PasswordResetView,
     PasswordResetDoneView,
     PasswordResetConfirmView,
     PasswordResetCompleteView,
 )
+from .views import CustomLoginView  # if you have this custom view
 
 urlpatterns = [
     path('', views.home_view, name='home'),
@@ -23,7 +23,7 @@ urlpatterns = [
     path('wishlist/toggle/<int:product_id>/', views.wishlist_toggle_view, name='wishlist_toggle'),
 
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
-    path('login/', LoginView.as_view(template_name='core/login.html'), name='login'),
+    path('login/', CustomLoginView.as_view(), name='login'),  # or use LoginView if no custom
 
     path('password_reset/', PasswordResetView.as_view(template_name='core/password_reset_form.html'), name='password_reset'),
     path('password_reset/done/', PasswordResetDoneView.as_view(template_name='core/password_reset_done.html'), name='password_reset_done'),
@@ -31,7 +31,9 @@ urlpatterns = [
     path('reset/done/', PasswordResetCompleteView.as_view(template_name='core/password_reset_complete.html'), name='password_reset_complete'),
 
     path('account/profile/', views.account_profile_view, name='account_profile'),
-    path('register/', views.register_view, name='register'),
     path('account/profile/edit/', views.profile_edit_view, name='profile_edit'),
 
+    path('register/', views.register_view, name='register'),
+    path('wishlist/', views.wishlist_view, name='wishlist'),
+    path('wishlist/toggle/<int:product_id>/', views.wishlist_toggle_view, name='wishlist_toggle'),
 ]

@@ -18,7 +18,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+AUTHENTICATION_BACKENDS = (
+    'core.backends.PhoneOrUsernameModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 # Application definition
 
 INSTALLED_APPS = [
@@ -60,17 +63,20 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.i18n',
                 'django.contrib.messages.context_processors.messages',
+
+                # Your existing categories context processor
                 'core.context_processors.navbar_categories',
+
+                # Add wishlist and cart counts context processor
+                'core.context_processors.common_counts',
             ],
         },
     },
 ]
 
+
 WSGI_APPLICATION = 'hypermarket.wsgi.application'
-AUTHENTICATION_BACKENDS = (
-    'core.backends.PhoneOrUsernameModelBackend',
-    'django.contrib.auth.backends.ModelBackend',
-)
+
 
 
 # Database

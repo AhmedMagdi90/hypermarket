@@ -1,27 +1,18 @@
-"""
-URL configuration for hypermarket project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
-from django.urls import path ,include
+from django.urls import path, include
+from django.conf.urls.i18n import i18n_patterns  # import for i18n patterns
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('i18n/', include('django.conf.urls.i18n')),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('', include('core.urls')),
-    
-    
+    # URLs that don't depend on language (e.g., language switching)
+    path('i18n/', include('django.conf.urls.i18n')),  # language set/change url
 ]
+
+# Wrap your main app URLs and admin in i18n_patterns so they get language prefixes (/en/, /ar/)
+urlpatterns += i18n_patterns(
+    path('admin/', admin.site.urls),
+    # Note: You already include 'accounts/' with django.contrib.auth.urls,
+    # which includes login/logout/password management URLs with namespace 'auth'.
+    # Since you have custom login/logout URLs in your core app, you might consider removing this line or move your custom auth URLs.
+    path('accounts/', include('django.contrib.auth.urls')),  # optional, remove if using custom auth
+    path('', include('core.urls')),
+)
